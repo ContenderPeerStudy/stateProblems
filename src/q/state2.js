@@ -7,7 +7,7 @@ function State2() {
     문제 2.
 
     Q1. 아래 작성된 state의 mock data를 활용하여
-        댓글 목록을 화면에 랜더링 해보세요 :)
+        댓글 목록을 화면에 랜더링 해보세요 :(
         Components는 src/components/state/comment.js를 활용하세요
         
     Q2. 댓글 작성 수정 삭제 기능을 구현해보세요 :)
