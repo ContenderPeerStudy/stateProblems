@@ -1,7 +1,9 @@
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import styled from "styled-components";
 import Comment from "./components/comment";
-import UpdateCommentModal from "./components/update_comment_modal";
+
+import { IsModalOpenContext } from "../context/modal_open_context";
+import State2EditModalBox from "./components/state2_edit_modal_box";
 function State2() {
     /*  
     문제 2.
@@ -18,7 +20,7 @@ function State2() {
             2. 댓글 수정 기능
               1) 수정 버튼을 누르면 모달창이 열린다. 
                 (1) 모달창은 작성자 상자, 내용 상자, 닫기 버튼, 수정 버튼이 있다.
-                (2) isEditing state가 true이면 모달창이 열린다. (삼항연산자)
+                (2) isModalOpen state가 true이면 모달창이 열린다. (삼항연산자)
               2) 수정 버튼은 댓글 컴포넌트에 있다. 수정 버튼이 눌린 컴포넌트의 index를 가져온다.
                 (1) 처음 댓글 컴포넌트를 생성할 때 배열의 index를 넣는다. 
                 (2) 위에서 넣은 index를 state2 컴포넌트의 상태 변수에 넣는다.
@@ -36,7 +38,7 @@ function State2() {
     const userRef = useRef();
     const contentRef = useRef();
     const passwordRef = useRef();
-    const [isEditing, setIsEditing] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useContext(IsModalOpenContext);
 
     const [commentId, setCommentId] = useState();
     const [post, setPost] = useState({
@@ -90,6 +92,7 @@ function State2() {
             },
         ],
     });
+
     function onClickAddBtn() {
         const nickname = userRef.current.value;
         const content = contentRef.current.value;
@@ -115,6 +118,7 @@ function State2() {
         toBeUpdatedComment.content = content;
     }
     function deleteComment(contentId) {
+        //체크
         let DeletedComments = post.Comments.filter((_, index) => {
             return index !== commentId;
         });
@@ -125,11 +129,11 @@ function State2() {
     }
     return (
         <>
-            {isEditing && (
-                <UpdateCommentModal
-                    $setIsEditing={setIsEditing}
-                    $updateComment={updateComment}
-                ></UpdateCommentModal>
+            {isModalOpen && (
+                <State2EditModalBox
+                    $onSubmitFunc={updateComment}
+                    $editContentRef={contentRef}
+                ></State2EditModalBox>
             )}
             <S.Wrapper>
                 <h1>문제2</h1>
@@ -171,7 +175,7 @@ function State2() {
                             <Comment
                                 $comments={post.Comments}
                                 $comment={comment}
-                                $setIsEditing={setIsEditing}
+                                $setIsModalOpen={setIsModalOpen}
                                 $commentId={commentId}
                                 $setCommentId={setCommentId}
                                 $deleteComment={deleteComment}

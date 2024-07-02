@@ -4,7 +4,7 @@ import ProductCard from "./components/product";
 import productList from "../__mock__/products.json";
 
 function State3() {
-  /*
+    /*
     문제 3.
     심화문제 입니다
     
@@ -38,36 +38,58 @@ function State3() {
     4.  상세 페이지에서는 페이지의 상세 내용을 확인할 수 있으며
         구매평을 추가할 수 있습니다 (수정 및 삭제는 state2에서 풀이하였으므로 구현하지 않아도 괜찮습니다)
   */
+    // 상세 페이지 이동
+    // 1. navigate 함수의 상품 번호로 products.json의 상품 번호가 들어가야 한다.
+    // 상세 페이지
+    // 1. 요구 사항
+    //     1) 주소에 클릭한 상품의 상품번호가 노출되어야 한다.
+    //     2) detail, 구매평
+    // 2. 구현
+    //     1) products.json에서 상품 번호에 해당되는 상품의 정보만 찾는다.
 
-  console.log(productList);
+    console.log(productList);
 
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  const onNavigateDetailPage = () => {
-    navigate(`/detail/1`);
-  };
+    const onNavigateDetailPage = (productNumber) => {
+        navigate(`/detail/${productNumber}`);
+    };
 
-  return (
-    <>
-      <h1>문제3</h1>
-      <h2>상품 목록</h2>
-      <ul>
-        {/* list */}
-        {/* 예시 데이터 */}
-        <ProductCard onNavigate={onNavigateDetailPage} />
-      </ul>
-    </>
-  );
+    return (
+        <>
+            <h1>문제3</h1>
+            <h2>상품 목록</h2>
+            <ul>
+                {/* list */}
+                {/* 예시 데이터 */}
+
+                {productList.products.map((product) => {
+                    return (
+                        <S.Item>
+                            <ProductCard
+                                onNavigate={() => {
+                                    onNavigateDetailPage(product.productNumber);
+                                }}
+                                $productInfo={product}
+                            />
+                        </S.Item>
+                    );
+                })}
+                {/* <ProductCard onNavigate={onNavigateDetailPage} /> */}
+            </ul>
+        </>
+    );
 }
 export default State3;
 
 const Item = styled.li`
-  border: 1px solid #000;
-  cursor: pointer;
-  width: 300px;
-  margin: 16px auto;
+    /* border: 1px solid #000;
+    cursor: pointer;
+    width: 300px;
+    margin: 16px auto; */
+    list-style: none;
 `;
 
 const S = {
-  Item,
+    Item,
 };

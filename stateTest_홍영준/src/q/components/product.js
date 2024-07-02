@@ -1,14 +1,15 @@
 import styled from "styled-components";
-impo;
-function ProductCard({ onNavigate, productList }) {
+
+function ProductCard({ onNavigate, $productInfo }) {
+    console.log($productInfo);
     return (
         <S.Item onClick={onNavigate}>
-            <h4>구멍난 양말</h4>
-            <p>상품번호: 302012</p>
-            <p>가격: 3000원</p>
-            <p>사이즈: X, M, L</p>
-            <p>평점: 4.5</p>
-            <p>리뷰: 14</p>
+            <h4>{$productInfo.productName}</h4>
+            <p>상품번호: {$productInfo.productNumber}</p>
+            <p>가격: {$productInfo.productPrice}</p>
+            <p>사이즈: {$productInfo.productSize}</p>
+            <p>평점: {$productInfo.productRating}</p>
+            <p>리뷰: {$productInfo.productReview}</p>
         </S.Item>
     );
 }

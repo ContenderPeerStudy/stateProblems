@@ -4,7 +4,7 @@ import styled from "styled-components";
 function Comment({
     $comments,
     $comment,
-    $setIsEditing,
+    $setIsModalOpen,
     $commentId,
     $setCommentId,
     $deleteComment,
@@ -14,7 +14,7 @@ function Comment({
     const [isDeleting, setIsDeleting] = useState(false);
     const inputPassword = useRef();
     function onClickEditBtn() {
-        $setIsEditing(true);
+        $setIsModalOpen(true);
         $setCommentId($commentId);
     }
     function onClickDeleteBtn() {
