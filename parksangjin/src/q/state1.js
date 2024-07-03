@@ -19,10 +19,11 @@ function State1() {
 
   const onSubmitAddTodo = (event) => {
     event.preventDefault();
+    console.log(event.target);
     const newTodo = {
       id: Math.floor(Math.random() * 100000),
       title: event.target.title.value,
-      singer: event.target.signer.value,
+      singer: event.target.singer.value,
     };
     setTodos([...todos, newTodo]);
   };
@@ -46,7 +47,7 @@ function State1() {
           );
         })}
       </ul>
-      <div onSubmit={onSubmitAddTodo}>
+      <form onSubmit={onSubmitAddTodo}>
         <p>
           곡명 :
           <input name="title" />
@@ -58,7 +59,7 @@ function State1() {
         <p>
           <button>추가</button>
         </p>
-      </div>
+      </form>
     </>
   );
 }

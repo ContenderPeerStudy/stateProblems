@@ -16,6 +16,8 @@ function State2() {
             3. 댓글 삭제 기능 ( 본인이 작성한 댓글만 삭제할 수 있습니다, myComment 활용 )
     */
 
+  // 상태중첩객체
+
   const [posts, setPosts] = useState({
     title: "안녕하세요 여러분 김성용 강사입니다 :)",
     content: "오늘도 모두 화이팅입니다!",
@@ -70,7 +72,7 @@ function State2() {
 
   const onSubmitPostTodo = (event) => {
     event.preventDefault();
-    const newPost = {
+    const newComment = {
       id: Math.floor(Math.random() * 100000),
       User: {
         nickname: event.target.nickname.value,
@@ -78,7 +80,8 @@ function State2() {
       content: event.target.content.value,
       myComment: true,
     };
-    setPosts.Comments([...posts.Comments, newPost]);
+    setPosts({ ...posts, Comments: [newComment, ...posts.Comments] });
+    //
   };
 
   return (
@@ -99,14 +102,14 @@ function State2() {
           작성자 키: <span>{posts.User.height}</span>
         </p>
       </S.PostInfo>
-      <div onSubmit={onSubmitPostTodo}>
+      <form onSubmit={onSubmitPostTodo}>
         <p>
           댓글 수: <span>{posts.Comments.length}</span>
         </p>
         <input name="nickname" placeholder="작성자" />
         <input name="content" placeholder="댓글 내용" />
         <button>댓글 작성</button>
-      </div>
+      </form>
       <S.CommentList>
         {posts.Comments.map((post) => (
           <Comment

@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
 import ProductCard from "./components/product";
 import productList from "../__mock__/products.json";
 import { useState } from "react";
@@ -42,46 +41,34 @@ function State3() {
 
   console.log(productList);
 
-  const [products, setProducts] = useState(productList.products);
+  const [list, setList] = useState(productList.products);
 
   const navigate = useNavigate();
 
-  const onNavigateDetailPage = () => {
-    navigate(`/detail/1`);
+  const onNavigateDetailPage = (productNumber) => {
+    navigate(`/detail/${productNumber}`);
   };
 
   return (
     <>
       <h1>문제3</h1>
       <h2>상품 목록</h2>
-      <ul>
-        {products.map((product) => {
-          return (
-            <div>
-              <p>{product.productName}</p>
-              <p>{product.productPrice}</p>
-              <p>{product.productNumber}</p>
-              <p>{product.productSize}</p>
-              <p>{product.productRating}</p>
-              <p>{product.productReview}</p>
-            </div>
-          );
-        })}
-        {}
-        <ProductCard onNavigate={onNavigateDetailPage} />
-      </ul>
+      {list.map((product) => (
+        <ul>
+          <ProductCard
+            onNavigate={() => onNavigateDetailPage(product.productNumber)}
+            name={product.productName}
+            price={product.productPrice}
+            number={product.productNumber}
+            size={product.productSize}
+            rating={product.productRating}
+            review={product.productReview}
+            list={list}
+            setList={setList}
+          />
+        </ul>
+      ))}
     </>
   );
 }
 export default State3;
-
-const Item = styled.li`
-  border: 1px solid #000;
-  cursor: pointer;
-  width: 300px;
-  margin: 16px auto;
-`;
-
-const S = {
-  Item,
-};

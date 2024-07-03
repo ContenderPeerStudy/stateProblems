@@ -1,19 +1,51 @@
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
+import productList from "../__mock__/products.json";
+import { useEffect, useState } from "react";
+
 function DetailPage() {
   const params = useParams();
   console.log(params.productNumber);
+  const [product, setProduct] = useState();
+  useEffect(() => {
+    const foundProduct = productList.products.find(
+      (e) => e.productNumber === params.productNumber
+    );
+    if (!foundProduct) {
+      Navigate("/");
+    } else {
+      setProduct(foundProduct);
+    }
+  }, [params.productNumber]);
+
+  const onSubmitNewReview = (event) => {
+    event.preventDefault();
+    const newReview = {
+      reviewer: event.target.reviewer.value,
+      review: event.target.review.value,
+      rating: event.target.rating.value,
+    };
+    setProduct({ ...product, Review: [newReview, product.Review] });
+  };
 
   return (
-    <div>
-      {/* 
-      상세 페이지는 자유롭게 꾸미시면 됩니다.
-      아직 해당 부분의 진도가 나가지 않았기 때문에 주소의 파람을 가지고 올 수 있는 방법은
-      미리 콘솔에 찍어두었습니다.
-
-      단, 없는 번호 상품으로 접근 시 state페이지로 돌아가도록 구현해주세요
-     */}
-      {params.productNumber}
-    </div>
+    <>
+      <form onSubmit={onSubmitNewReview}>
+        <input name="reviewer" placeholder="이름을 입력해주세요" />
+        <input name="review" placeholder="평점을 입력해주세요" />
+        <input name="rating" placeholder="후기를 작성해주세요" />
+        <button>리뷰 추가</button>
+      </form>
+      {product.Review.map((e, i) => {
+        return (
+          <div key={i}>
+            <p>{e.reviewer}</p>
+            <p>{e.review}</p>
+            <p>{e.rating}</p>
+          </div>
+        );
+      })}
+      <div>{product.productDetail.productDetailInfo}</div>
+    </>
   );
 }
 export default DetailPage;

@@ -12,27 +12,28 @@ function Comment({ id, nickname, content, myComment, posts, setPosts }) {
   };
 
   const onClickCompletedEdit = () => {
-    const tempPosts = [...posts];
-    const PostIndex = tempPosts.Comments.findIndex((post) => post.id === id);
-    tempPosts.Comments[PostIndex] = {
-      ...tempPosts.Comments[PostIndex],
+    const tempComment = [...posts.Comments];
+    const CommentIndex = tempComment.findIndex((post) => post.id === id);
+    tempComment[CommentIndex] = {
+      ...tempComment[CommentIndex],
       User: {
         nickname: nicknameEditInput.current.value,
       },
       content: contentEditInput.current.value,
     };
-    setPosts(tempPosts);
+    setPosts({ ...posts, Comments: tempComment });
     setIsEdit(false);
   };
 
   const onClickDeletePost = () => {
-    const filterPost = todos.Comments.filter((post) => post.id !== id);
-    setPosts(filterPost);
+    const filterPost = posts.Comments.filter((post) => post.id !== id);
+    setPosts({ ...posts, Comments: filterPost });
   };
 
   return (
     <S.CommentItem>
       {isEdit ? <input ref={nicknameEditInput} /> : nickname}
+      <div> </div>
       {isEdit ? <input ref={contentEditInput} /> : content}
       <button onClick={isEdit ? onClickCompletedEdit : onClickSetEditMode}>
         {isEdit ? "완료" : "수정"}
