@@ -57,6 +57,7 @@ function State3() {
         <ul>
           <ProductCard
             onNavigate={() => onNavigateDetailPage(product.productNumber)}
+            key={product.productNumber}
             name={product.productName}
             price={product.productPrice}
             number={product.productNumber}
