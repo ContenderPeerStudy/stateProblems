@@ -20,7 +20,20 @@ function DetailPage() {
     const onClickAddReview = () => {
         setIsModalOpen(true);
     };
-    const addReview = () => {};
+    const addReview = (author, content, rating) => {
+        const newReview = [
+            ...productState.Review,
+            {
+                reviewer: author,
+                review: content,
+                rating: rating,
+            },
+        ];
+        setProductState({
+            ...productState,
+            Review: newReview,
+        });
+    };
     useEffect(() => {
         const product = productList.products.find((product) => {
             return params.productNumber === product.productNumber;
@@ -40,12 +53,12 @@ function DetailPage() {
             {isModalOpen && (
                 <DetailModalBox $onSubmitFunc={addReview}></DetailModalBox>
             )}
-            <form onSubmit={onClickAddReview}>
+            <div>
                 <h3>{productState.productName}</h3>
                 <S.Detail>
                     {productState.productDetail.productDetailInfo}
                 </S.Detail>
-                <button>상품평 추가</button>
+                <button onClick={onClickAddReview}>상품평 추가</button>
                 <ul>
                     {productState.Review.map((review) => {
                         return (
@@ -57,7 +70,7 @@ function DetailPage() {
                         );
                     })}
                 </ul>
-            </form>
+            </div>
         </>
     );
 
