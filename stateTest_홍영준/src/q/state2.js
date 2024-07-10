@@ -132,7 +132,6 @@ function State2() {
             {isModalOpen && (
                 <State2EditModalBox
                     $onSubmitFunc={updateComment}
-                    $editContentRef={contentRef}
                 ></State2EditModalBox>
             )}
             <S.Wrapper>
