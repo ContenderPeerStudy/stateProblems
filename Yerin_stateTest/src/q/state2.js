@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import Comment from "./components/comment";
+import Comments from "../__mock__/comments.json";
 
 function State2() {
   /*  
@@ -24,44 +25,23 @@ function State2() {
       age: 20,
       height: 190,
     },
-    Comments: [
-      {
-        User: {
-          nickname: "김사과",
-        },
-        content: "오늘도 화이팅입니다!",
-        myComment: false,
-      },
-      {
-        User: {
-          nickname: "반하나",
-        },
-        content: "오늘도 화이팅입니다!",
-        myComment: false,
-      },
-      {
-        User: {
-          nickname: "오렌지",
-        },
-        content: "오늘도 화이팅입니다!",
-        myComment: false,
-      },
-      {
-        User: {
-          nickname: "이멜론",
-        },
-        content: "오늘도 화이팅입니다!",
-        myComment: false,
-      },
-      {
-        User: {
-          nickname: "박수박",
-        },
-        content: "오늘도 화이팅입니다!",
-        myComment: false,
-      },
-    ],
+    Comments,
   });
+
+  const [commentlist, setCommentlist] = useState(Comments.Comments);
+  const onClickAddComment = (event) => {
+    event.preventDefault();
+
+    const newComment = {
+      User: {
+        nickname: event.target.writer.value, //form의 onSubmit만 가능
+      },
+      content: event.target.content.value,
+      myComment: false,
+    };
+    setCommentlist([...commentlist, newComment]);
+    console.log("setComment이후 : ", commentlist);
+  };
 
   return (
     <S.Wrapper>
@@ -81,18 +61,27 @@ function State2() {
           작성자 키: <span>{post.User.height}</span>
         </p>
       </S.PostInfo>
-      <div>
+      <form onSubmit={onClickAddComment}>
         <p>
           댓글 수: <span>{post.Comments.length}</span>
         </p>
-        <input placeholder="작성자" />
-        <input placeholder="댓글 내용" />
+        <input placeholder="작성자" name="writer" />
+        <input placeholder="댓글 내용" name="content" />
         <button>댓글 작성</button>
-      </div>
+      </form>
       <S.CommentList>
-        {/* list */}
-        {/* 예시 데이터 */}
-        <Comment />
+        <p>Is It Printing Well?</p>
+        {/* {commentlist.map((comment, index) => {
+        <Comment writer={comment.User.nickname}/>
+      })} */}
+        <Comment commentlist={commentlist} />
+
+        {/* {commentlist.map((comment))=>{comment.nickname}} */}
+
+        {/* {commentlist.map((comment, index)=> {
+          {console.log('여기서',comment.User.nickname)}
+          <Comment key={index} nickname={comment.User.nickname} content={comment.content}/>
+        })} */}
       </S.CommentList>
     </S.Wrapper>
   );
