@@ -12,7 +12,7 @@ function State2() {
         
     Q2. 댓글 작성 수정 삭제 기능을 구현해보세요 :)
             1. 댓글 작성 기능
-            2. 댓글 수정 기능
+            2. 댓글 수정 기능 
             3. 댓글 삭제 기능 ( 본인이 작성한 댓글만 삭제할 수 있습니다, myComment 활용 )
     */
 
@@ -78,7 +78,7 @@ function State2() {
         {/* {commentlist.map((comment))=>{comment.nickname}} */}
 
         {/* {commentlist.map((comment, index)=> {
-          {console.log('여기서',comment.User.nickname)}
+          {console.log('here',comment.User.nickname)}
           <Comment key={index} nickname={comment.User.nickname} content={comment.content}/>
         })} */}
       </S.CommentList>
