@@ -43,19 +43,44 @@ function State3() {
 
   const navigate = useNavigate();
 
-  const onNavigateDetailPage = () => {
-    navigate(`/detail/1`);
+  const onNavigateDetailPage = (productNumber) => {
+    navigate(`/detail/${productNumber}`);
+  };
+
+  const formatPrice = (price) => {
+    return parseInt(price, 10).toLocaleString();
   };
 
   return (
     <>
       <h1>문제3</h1>
       <h2>상품 목록</h2>
-      <ul>
+      
         {/* list */}
-        {/* 예시 데이터 */}
-        <ProductCard onNavigate={onNavigateDetailPage} />
-      </ul>
+        {/* 예시 데이터 */} 
+
+        
+        {productList.products.map((product) => {
+          return (
+            <S.Item>
+              <ProductCard 
+                
+                onNavigate={() => {
+                onNavigateDetailPage(product.productNumber);
+              }}
+              
+              $productInfo={{
+                ...product,
+                productPrice: formatPrice(product.productPrice)
+                
+              }}
+
+              />
+            </S.Item>
+          );
+        })}
+        
+      
     </>
   );
 }
