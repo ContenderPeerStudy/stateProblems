@@ -1,5 +1,7 @@
-import { useState, useRef } from "react";
+import {useState} from "react";
 import PlayListMock from "../__mock__/playList.json";
+
+
 
 function State1() {
   /* 
@@ -11,60 +13,58 @@ function State1() {
     아래에 추가버튼을 눌러 목록에 리스트를 추가하고 
     삭제 버턴을 눌렀을 때 데이터가 삭제될 수 있도록 해주세요
   */
+ 
 
   console.log(PlayListMock.playlist);
   /* 데이터 콘솔에 찍어두었으니 확인해볼 것 */
 
-  const [playlist, setPlaylist] = useState(PlayListMock.playlist);
+  const [playList, setPlaylist] = useState(PlayListMock.playlist);
 
-  const songTitle = useRef();
-  const singer = useRef();
-
-  const onClickAddNewSong = () => {
-    const newSong = {
-      title: songTitle,
-      signer: singer,
+  const onSubmitAddPlaylist = (event) => {
+    
+    event.preventDefault();
+    
+    const newPlaylist = {
+      id: Math.floor(Math.random() * 1000000),
+      title: event.target.title.value,
+      singer: event.target.singer.value,
+      state: false,
     };
-    setPlaylist([...playlist, newSong]);
-  };
+    
+    setPlaylist([...playList, newPlaylist]);
+    
+  }
 
-  const onClickDelete = (songTitle) => {
-    const deletedPlaylist = playlist.filter((song) => song.title !== songTitle);
-    setPlaylist(deletedPlaylist);
+  const onClickDeletePlaylist = (id) => {
+    const filteredPlaylist = playList.filter((playlist) => playlist.id !== id);
+    setPlaylist(filteredPlaylist);
   };
 
   return (
     <>
       <h1>문제1</h1>
-      <div>
-        {playlist.map((song, index) => (
-          <ul key={index}>
-            <li>
-              <h3>{song.title}</h3>
-              <p>{song.signer}</p>
-              <button onClick={() => onClickDelete(song.title)}>삭제</button>
-            </li>
-          </ul>
-        ))}
-      </div>
       <ul>
-        <li>
-          <h3>Summer</h3>
-          <p>Joe Hisaishi</p>
-          <button onClick={onClickDelete}>삭제 </button>
-        </li>
+        {/* list */}
+        {/* 예시 데이터 */}
+        {playList.map((playlist) => (
+          <div key={playlist.id}>
+            <b>{playlist.title}</b>
+            <p>{playlist.singer}</p>
+            <button onClick={() => onClickDeletePlaylist(playlist.id)}>삭제</button>
+          </div>
+        ))}
       </ul>
-      <div>
+      <form onSubmit={onSubmitAddPlaylist}>
         <p>
-          곡명 : <input ref={songTitle} />
+          곡명 : <input name="title" />
         </p>
         <p>
-          가수/작곡 : <input ref={singer} />
+          가수/작곡 : <input name="singer" />
         </p>
         <p>
-          <button onClick={onClickAddNewSong}>추가</button>
+          <button type="submit">추가</button>
         </p>
-      </div>
+      </form>
     </>
   );
 }

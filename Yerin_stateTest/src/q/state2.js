@@ -12,7 +12,7 @@ function State2() {
         
     Q2. 댓글 작성 수정 삭제 기능을 구현해보세요 :)
             1. 댓글 작성 기능
-            2. 댓글 수정 기능 
+            2. 댓글 수정 기능
             3. 댓글 삭제 기능 ( 본인이 작성한 댓글만 삭제할 수 있습니다, myComment 활용 )
     */
 
@@ -24,22 +24,78 @@ function State2() {
       age: 20,
       height: 190,
     },
-    Comments,
+    Comments: [
+      {
+        User: {
+          nickname: "김사과",
+        },
+        content: "오늘도 화이팅입니다!",
+        myComment: false,
+      },
+      {
+        User: {
+          nickname: "반하나",
+        },
+        content: "오늘도 화이팅입니다!",
+        myComment: false,
+      },
+      {
+        User: {
+          nickname: "오렌지",
+        },
+        content: "오늘도 화이팅입니다!",
+        myComment: false,
+      },
+      {
+        User: {
+          nickname: "이멜론",
+        },
+        content: "오늘도 화이팅입니다!",
+        myComment: false,
+      },
+      {
+        User: {
+          nickname: "박수박",
+        },
+        content: "오늘도 화이팅입니다!",
+        myComment: false,
+      },
+    ],
   });
 
-  const [commentlist, setCommentlist] = useState(Comments.Comments);
-  const onClickAddComment = (event) => {
-    event.preventDefault();
+  const [commentlist, setCommentList] = useState(post.Comments);
 
+  const onSubmitAddComment = (event) => {
+    
+    event.preventDefault();
+    
     const newComment = {
+      id: Math.floor(Math.random() * 1000000),
       User: {
-        nickname: event.target.writer.value, //form의 onSubmit만 가능
+        nickname: event.target.nickname.value,
       },
       content: event.target.content.value,
-      myComment: false,
+      myComment : true,
     };
-    setCommentlist([...commentlist, newComment]);
-    console.log("setComment이후 : ", commentlist);
+    
+    const updatedComments = [...commentlist, newComment];
+    setCommentList(updatedComments);
+    setPost({ ...post, Comments: updatedComments });
+    
+  };
+
+  const onDeleteComment = (id) => {
+    const updatedComments = commentlist.filter((comment) => comment.id !== id);
+    setCommentList(updatedComments);
+    setPost({ ...post, Comments: updatedComments });
+  };
+
+  const onEditComment = (id, newContent) => {
+    const updatedComments = commentlist.map((comment) =>
+      comment.id === id ? { ...comment, content: newContent } : comment
+    );
+    setCommentList(updatedComments);
+    setPost({ ...post, Comments: updatedComments });
   };
 
   return (
@@ -60,27 +116,32 @@ function State2() {
           작성자 키: <span>{post.User.height}</span>
         </p>
       </S.PostInfo>
-      <form onSubmit={onClickAddComment}>
+      <div>
+      <form onSubmit={onSubmitAddComment}>
         <p>
           댓글 수: <span>{post.Comments.length}</span>
         </p>
-        <input placeholder="작성자" name="writer" />
-        <input placeholder="댓글 내용" name="content" />
-        <button>댓글 작성</button>
+        
+        <input placeholder="작성자" name="nickname"/>
+        <input placeholder="댓글 내용" name="content"/>
+        <button type="submit">댓글 작성</button>
       </form>
+      </div>
       <S.CommentList>
-        <p>Is It Printing Well?</p>
-        {/* {commentlist.map((comment, index) => {
-        <Comment writer={comment.User.nickname}/>
-      })} */}
-        <Comment commentlist={commentlist} />
+        {/* list */}
+        {/* 예시 데이터 */}
+        {commentlist.map((comment) => (
+          <Comment
+            key={comment.id}
+            id={comment.id}
+            nickname={comment.User.nickname}
+            content={comment.content}
+            myComment={comment.myComment}
+            onDeleteComment={onDeleteComment}
+            onEditComment={onEditComment}
+          />
+        ))}
 
-        {/* {commentlist.map((comment))=>{comment.nickname}} */}
-
-        {/* {commentlist.map((comment, index)=> {
-          {console.log('here',comment.User.nickname)}
-          <Comment key={index} nickname={comment.User.nickname} content={comment.content}/>
-        })} */}
       </S.CommentList>
     </S.Wrapper>
   );

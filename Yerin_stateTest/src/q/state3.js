@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import ProductCard from "./components/product";
 import productList from "../__mock__/products.json";
-import { useState } from "react";
 
 function State3() {
   /*
@@ -29,6 +29,9 @@ function State3() {
       useEffect를 활용하여 products 데이터에서
       올바른 데이터를 찾아내어 해당 데이터만 따로 state로 관리합니다
 
+      * 주의
+        본래 로직이라한다면 주소의 상품번호를 백엔드에게 전송하여 데이터를 받아오는 로직이었을겁니다
+        그러나 백엔드가 없기에 최대한 유사하게 페이지를 구사해보았습니다
 
       상세페이지는 pages/Detail.js이며
 
@@ -38,35 +41,58 @@ function State3() {
 
   console.log(productList);
 
-  const [list, setList] = useState(productList.products);
-
   const navigate = useNavigate();
 
   const onNavigateDetailPage = (productNumber) => {
     navigate(`/detail/${productNumber}`);
   };
 
+  const formatPrice = (price) => {
+    return parseInt(price, 10).toLocaleString();
+  };
+
   return (
     <>
       <h1>문제3</h1>
       <h2>상품 목록</h2>
-      {list.map((product) => (
-        <ul>
-          <ProductCard
-            onNavigate={() => onNavigateDetailPage(product.productNumber)}
-            key={product.productNumber}
-            name={product.productName}
-            price={product.productPrice}
-            number={product.productNumber}
-            size={product.productSize}
-            rating={product.productRating}
-            review={product.productReview}
-            list={list}
-            setList={setList}
-          />
-        </ul>
-      ))}
+      
+        {/* list */}
+        {/* 예시 데이터 */} 
+
+        
+        {productList.products.map((product) => {
+          return (
+            <S.Item>
+              <ProductCard 
+                
+                onNavigate={() => {
+                onNavigateDetailPage(product.productNumber);
+              }}
+              
+              $productInfo={{
+                ...product,
+                productPrice: formatPrice(product.productPrice)
+                
+              }}
+
+              />
+            </S.Item>
+          );
+        })}
+        
+      
     </>
   );
 }
 export default State3;
+
+const Item = styled.li`
+  border: 1px solid #000;
+  cursor: pointer;
+  width: 300px;
+  margin: 16px auto;
+`;
+
+const S = {
+  Item,
+};
