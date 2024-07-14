@@ -18,7 +18,7 @@ function DetailPage() {
     if (foundProduct) {
       setProduct(foundProduct);
     } else {
-      navigate("/state");
+      navigate("/");
     }
   }, [productNumber, navigate]);
 
