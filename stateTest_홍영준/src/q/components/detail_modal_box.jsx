@@ -34,7 +34,13 @@ const DetailModalBox = ({ $onSubmitFunc }) => {
                         placeholder={"리뷰 내용을 입력하세요"}
                         ref={contentRef}
                     ></S.Input>
-                    <S.Input placeholder="별점" ref={ratingRef}></S.Input>
+                    <S.Input
+                        type="number"
+                        min={1}
+                        max={5}
+                        placeholder="별점"
+                        ref={ratingRef}
+                    ></S.Input>
                 </S.InputContainer>
                 <button>작성 완료</button>
             </S.Form>
